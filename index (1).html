@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Joyeux Anniversaire, Mon Roi 🎮</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Share+Tech+Mono&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html,body{min-height:100vh;background:#1a0000;}
+    body{font-family:'Share Tech Mono',monospace;color:#fff;display:flex;flex-direction:column;align-items:center;padding:2rem 1rem 3rem;}
+
+    h1.title{font-family:'Dancing Script',cursive;font-size:clamp(1.4rem,4vw,2rem);color:#fff;text-align:center;margin-bottom:.2rem;text-shadow:0 0 20px rgba(220,50,50,.4);}
+    p.sub{font-size:9px;letter-spacing:4px;color:#cc2020;text-transform:uppercase;text-align:center;margin-bottom:1.4rem;}
+
+    .scene{width:100%;max-width:640px;}
+
+    /* LIVRE FERMÉ */
+    .book-closed{
+      width:52%;margin:0 auto;height:380px;
+      background:#cc0000;border:2px solid #fff;border-radius:8px;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:.7rem;padding:1.5rem;text-align:center;position:relative;
+      box-shadow:6px 6px 0 #7a0000,8px 8px 0 #500000;
+    }
+    .book-closed::before{content:'';position:absolute;inset:12px;border:.5px solid rgba(255,255,255,.25);border-radius:6px;pointer-events:none;}
+    .book-closed::after{content:'';position:absolute;top:4px;bottom:4px;right:-10px;width:10px;background:repeating-linear-gradient(to bottom,#e0e0e0 0,#e0e0e0 2px,#ccc 2px,#ccc 4px);border-radius:0 3px 3px 0;}
+
+    /* LIVRE OUVERT */
+    .book-opened{width:100%;height:380px;display:flex;position:relative;}
+    .spine{width:14px;flex-shrink:0;background:linear-gradient(to right,#7a0000,#cc0000,#7a0000);position:relative;z-index:10;}
+    .spine::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:100%;background:linear-gradient(to bottom,transparent,#fff,transparent);}
+
+    .page-left{flex:1;height:100%;border-radius:8px 0 0 8px;overflow:hidden;}
+    .page-right{flex:1;height:100%;border-radius:0 8px 8px 0;overflow:hidden;display:flex;flex-direction:column;}
+
+    .photo-only{width:100%;height:100%;background:#111;position:relative;overflow:hidden;}
+    .photo-only img{width:100%;height:100%;object-fit:cover;display:block;opacity:.88;}
+    .photo-only .ph{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;text-align:center;background:#1a0404;}
+    .photo-only .ph span{font-size:10px;color:#666;}
+    .photo-only .ph code{font-size:9px;color:#cc0000;padding:2px 6px;}
+    .scan-l{position:absolute;left:0;right:0;height:1px;background:rgba(200,0,0,.15);animation:sc 3s linear infinite;}
+    @keyframes sc{0%{top:0}100%{top:100%}}
+
+    .page-content{width:100%;height:100%;background:#fff;display:flex;flex-direction:column;}
+    .pc-photo{flex:1;min-height:0;position:relative;overflow:hidden;background:#f0f0f0;}
+    .pc-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+    .pc-photo .ph{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;text-align:center;padding:.8rem;background:#f8f8f8;}
+    .pc-photo .ph span{font-size:9px;color:#aaa;}
+    .pc-photo .ph code{font-size:8px;color:#cc0000;}
+    .scan-r{position:absolute;left:0;right:0;height:1px;background:rgba(200,0,0,.12);animation:sc 3s linear infinite;}
+    .ov{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(255,255,255,.6));pointer-events:none;}
+    .pc-text{padding:.65rem .85rem .5rem;background:#fff;flex-shrink:0;border-top:.5px solid #f0c0c0;}
+    .p-label{font-size:7px;letter-spacing:3px;text-transform:uppercase;color:#cc0000;margin-bottom:.28rem;display:block;}
+    .p-poem{font-family:'Playfair Display',serif;font-size:clamp(.57rem,1.35vw,.73rem);line-height:1.7;color:#333;}
+    .p-poem .it{font-style:italic;color:#555;}
+    .p-poem .bl{font-weight:500;color:#cc0000;display:block;margin:.1rem 0;}
+    .p-num{font-size:7px;color:#cc0000;text-align:center;margin-top:.3rem;letter-spacing:2px;}
+
+    /* PAGE FINALE : même taille que couverture */
+    .book-final{
+      width:52%;margin:0 auto;height:380px;
+      background:#cc0000;border:2px solid #fff;border-radius:8px;
+      display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;
+      padding:.8rem 1.2rem;text-align:center;position:relative;overflow:hidden;
+      box-shadow:-6px 6px 0 #7a0000,-8px 8px 0 #500000;
+    }
+    .book-final::before{content:'';position:absolute;inset:10px;border:.5px solid rgba(255,255,255,.2);border-radius:6px;pointer-events:none;}
+    .book-final::after{content:'';position:absolute;top:4px;bottom:4px;left:-10px;width:10px;background:repeating-linear-gradient(to bottom,#e0e0e0 0,#e0e0e0 2px,#ccc 2px,#ccc 4px);border-radius:3px 0 0 3px;}
+
+    .c-title{font-family:'Dancing Script',cursive;font-size:clamp(1.2rem,3.5vw,1.9rem);color:#fff;line-height:1.2;}
+    .c-sub{font-size:8px;letter-spacing:3px;color:rgba(255,255,255,.7);text-transform:uppercase;}
+    .c-heart{font-size:1.6rem;animation:hb 2s ease-in-out infinite;display:inline-block;}
+    @keyframes hb{0%,100%{transform:scale(1)}40%{transform:scale(1.15)}60%{transform:scale(1)}}
+    .c-badge{font-size:7px;letter-spacing:2px;color:#fff;border:.5px solid rgba(255,255,255,.5);padding:2px 8px;}
+    .c-orn{color:rgba(255,255,255,.55);font-size:.7rem;letter-spacing:5px;}
+
+    .f-quote{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(.52rem,1.3vw,.67rem);color:rgba(255,255,255,.92);line-height:1.5;background:rgba(255,255,255,.1);border:.5px solid rgba(255,255,255,.3);border-radius:3px;padding:.28rem .5rem;width:100%;}
+    .f-choubi{font-family:'Dancing Script',cursive;font-size:clamp(.95rem,2.6vw,1.3rem);color:#fff;animation:pulse 2s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+    .f-cake{font-size:1.5rem;animation:bonce 1.2s ease-in-out infinite;display:inline-block;}
+    @keyframes bonce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+    .f-hb{font-family:'Dancing Script',cursive;font-size:clamp(.9rem,2.4vw,1.1rem);color:#fff;line-height:1.25;}
+    .f-level{background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.5);border-radius:4px;padding:.22rem .5rem;width:100%;}
+    .f-level-top{font-size:clamp(.5rem,1.2vw,.62rem);color:rgba(255,255,255,.75);}
+    .f-level-big{font-size:clamp(.9rem,2.2vw,1.05rem);font-weight:bold;letter-spacing:3px;color:#fff;}
+    .f-level-sub{font-size:clamp(.48rem,1.1vw,.58rem);color:rgba(255,255,255,.6);}
+    .f-next{background:rgba(255,255,255,.08);border:.5px dashed rgba(255,255,255,.35);border-radius:3px;padding:.2rem .5rem;width:100%;}
+    .f-next-top{font-size:clamp(.48rem,1.1vw,.58rem);color:rgba(255,255,255,.6);letter-spacing:2px;text-transform:uppercase;}
+    .f-next-val{font-size:clamp(.6rem,1.5vw,.75rem);color:#fff;letter-spacing:2px;font-weight:bold;}
+    .f-next-sub{font-size:clamp(.45rem,1vw,.55rem);color:rgba(255,255,255,.5);font-style:italic;}
+
+    .progress-bar{width:100%;max-width:640px;height:2px;background:#3a0000;margin-top:1rem;overflow:hidden;}
+    .progress-fill{height:100%;background:#fff;width:0%;transition:width .8s ease;}
+    .controls{display:flex;align-items:center;gap:.8rem;margin-top:.8rem;}
+    .btn{padding:.35rem 1rem;border:.5px solid rgba(255,255,255,.3);border-radius:2px;background:rgba(255,255,255,.08);color:#fff;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;cursor:pointer;transition:background .2s;text-transform:uppercase;}
+    .btn:hover{background:rgba(255,255,255,.18);}
+    .btn:disabled{opacity:.2;cursor:default;}
+    .ind{font-size:8px;color:#cc2020;letter-spacing:2px;min-width:90px;text-align:center;}
+    .footer{margin-top:2rem;font-size:9px;color:#5a0808;letter-spacing:3px;text-align:center;}
+  </style>
+</head>
+<body>
+
+<h1 class="title">Joyeux Anniversaire, Mon Roi</h1>
+<p class="sub">[ notre histoire · mission : amour ]</p>
+
+<div class="scene" id="scene"></div>
+
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+<div class="controls">
+  <button class="btn" id="prevBtn" disabled>◄ Retour</button>
+  <span class="ind" id="ind">[ COUVERTURE ]</span>
+  <button class="btn" id="pauseBtn">⏸ Pause</button>
+  <button class="btn" id="nextBtn">Ouvrir ►</button>
+</div>
+<p class="footer">[ tourne les pages de notre histoire ]</p>
+
+<script>
+const DATA=[
+  {photo:'photo1.jpg',label:'I · La rencontre',num:'01',
+   poem:`En 2022, mon seul objectif était<br>de traverser l'université seule et tranquille.<br>Aucun garçon, aucune distraction.<br><span class="it">Et puis tu es venu tout chambouler.</span>`},
+  {photo:'photo2.jpg',label:'II · La résistance',num:'02',
+   poem:`Ce soir-là, en retard, sans place —<br>c'est moi qui me suis assise à côté de toi.<br>Je me suis battue pour repousser cet amour.<br><span class="it">Je savais que les garçons finissent toujours par partir.</span>`},
+  {photo:'photo3.jpg',label:'III · Bobo',num:'03',
+   poem:`Puis vint ce voyage à Bobo.<br>En une semaine tu as su prendre mon cœur.<br>Ton odeur. Tu as déteint sur moi.<br><span class="bl">Tu t'es encré en moi pour toujours.</span>`},
+  {photo:'photo4.jpg',label:'IV · Mon tout',num:'04',
+   poem:`Tu es mon ami, mon meilleur ami,<br>mon camarade, mon copain, mon docteur,<br>mon ingénieur, mon Google, mon IA préféré.<br><span class="bl">Tu incarnes tout ce dont j'ai besoin.</span>`},
+  {photo:'photo5.jpg',label:'V · Ma prière pour toi',num:'05',
+   poem:`Je prie Dieu qu'il te bénisse abondamment.<br>Crois en toi comme je crois en toi.<br>Sois positif. Pardonne-toi tes erreurs.<br><span class="it">Tu es ma boule d'énergie.</span>`},
+  {photo:'photo6.jpg',label:'VI · Je veux être ta putana',num:'06',
+   poem:`Tu as ce truc en plus — une puissance,<br>une force, un charme et un charisme.<br>Je veux juste être ta putana.<br><span class="bl">Ne te laisse plus abattre par la vie.</span><span class="it">Tiens tête. Tu es fait pour régner.</span>`},
+  {photo:'photo7.jpg',label:'VII · Ce que tu m\'as donné',num:'07',
+   poem:`C'est à cause de toi que j'ai des ailes.<br>Que je me lève reine chaque matin.<br>Cette confiance infinie en moi —<br><span class="bl">c'est toi qui me l'as donnée.</span>`},
+];
+
+const TOTAL=DATA.length+1;
+const labels=['[ COUVERTURE ]','[ PAGE 01 ]','[ PAGE 02 ]','[ PAGE 03 ]','[ PAGE 04 ]','[ PAGE 05 ]','[ PAGE 06 ]','[ PAGE 07 ]','[ LEVEL 3 🔓 ]'];
+
+const scene=document.getElementById('scene');
+const prog=document.getElementById('prog');
+const ind=document.getElementById('ind');
+const pauseBtn=document.getElementById('pauseBtn');
+const prevBtn=document.getElementById('prevBtn');
+const nextBtn=document.getElementById('nextBtn');
+let cur=0,autoTimer=null,isPaused=false;
+const DELAY=4500;
+
+function render(){
+  if(cur===0){
+    scene.innerHTML=`<div class="book-closed">
+      <div class="c-orn">✦ ✦ ✦</div>
+      <span class="c-heart">❤️</span>
+      <div class="c-title">Joyeux<br>Anniversaire<br>Mon Roi</div>
+      <div class="c-sub">notre histoire</div>
+      <div class="c-badge">[ TOP SECRET ]</div>
+      <div class="c-orn">✦ ✦ ✦</div>
+    </div>`;
+  } else if(cur<=DATA.length){
+    const d=DATA[cur-1];
+    scene.innerHTML=`<div class="book-opened">
+      <div class="page-left">
+        <div class="photo-only">
+          <div class="scan-l"></div>
+          <img src="${d.photo}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="">
+          <div class="ph"><span>Ajoute ta photo</span><code>${d.photo}</code></div>
+        </div>
+      </div>
+      <div class="spine"></div>
+      <div class="page-right">
+        <div class="page-content">
+          <div class="pc-photo">
+            <div class="scan-r"></div>
+            <img src="${d.photo}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" alt="">
+            <div class="ph"><span>Ajoute ta photo</span><code>${d.photo}</code></div>
+            <div class="ov"></div>
+          </div>
+          <div class="pc-text">
+            <span class="p-label">${d.label}</span>
+            <div class="p-poem">${d.poem}</div>
+            <p class="p-num">[ ${d.num} ]</p>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  } else {
+    scene.innerHTML=`<div class="book-final">
+      <div class="f-quote">« Je bouge pas. Même mort, tu vas me croiser —<br>prépare-toi à me supporter à jamais. »</div>
+      <div class="f-choubi">Choubidou ❤️</div>
+      <span class="f-cake">🎂</span>
+      <div class="f-hb">Joyeux Anniversaire Mon Roi</div>
+      <div class="f-level">
+        <div class="f-level-top">⭐⭐⭐ level franchi</div>
+        <div class="f-level-big">LEVEL 3 🔓</div>
+        <div class="f-level-sub">3 ans d'amour · unlocked</div>
+      </div>
+      <div class="f-next">
+        <div class="f-next-top">prochain level</div>
+        <div class="f-next-val">LEVEL 4 🎮</div>
+        <div class="f-next-sub">on le découvrira ensemble l'an prochain...</div>
+      </div>
+    </div>`;
+  }
+  ind.textContent=labels[cur]||`[ ${cur} ]`;
+  prog.style.width=Math.round((cur/TOTAL)*100)+'%';
+  prevBtn.disabled=cur===0;
+  nextBtn.disabled=cur===TOTAL;
+  nextBtn.textContent=cur===0?'Ouvrir ►':cur===TOTAL-1?'Fin ►':'Suivant ►';
+  prevBtn.textContent=cur===1?'◄ Fermer':'◄ Retour';
+}
+
+function goNext(){if(cur<TOTAL){cur++;render();}if(cur===TOTAL)stopAuto();}
+function goPrev(){if(cur>0){cur--;render();}}
+function startAuto(){stopAuto();if(cur<TOTAL)autoTimer=setInterval(()=>{if(cur<TOTAL)goNext();else stopAuto();},DELAY);}
+function stopAuto(){if(autoTimer){clearInterval(autoTimer);autoTimer=null;}}
+
+pauseBtn.addEventListener('click',()=>{isPaused=!isPaused;if(isPaused){stopAuto();pauseBtn.textContent='▶ Reprendre';}else{pauseBtn.textContent='⏸ Pause';startAuto();}});
+nextBtn.addEventListener('click',()=>{stopAuto();goNext();if(!isPaused&&cur<TOTAL)startAuto();});
+prevBtn.addEventListener('click',()=>{stopAuto();goPrev();if(!isPaused)startAuto();});
+render();
+setTimeout(()=>startAuto(),1500);
+</script>
+</body>
+</html>
